@@ -13,10 +13,13 @@ class Command(BaseCommand):
         Material.objects.all().delete()
         """Entrypoint for command."""
         self.stdout.write('Loading materials...')
-
-        files = os.listdir(os.path.join(settings.STATIC_ROOT, 'materials'))
+        files = os.listdir(settings.STATIC_ROOT)
         for file in files:
-            with open(os.path.join(settings.STATIC_ROOT, 'materials', file)) as f:
-                data = json.load(f)
-                Material.objects.create(name=data['name'], properties=data['properties'])
-            print(f"Loaded material {data['name']} from {file}")
+            if file.endswith('.json'):
+                with open(os.path.join(settings.STATIC_ROOT, file)) as f:
+                    data = json.load(f)
+                    try:
+                        Material.objects.create(name=data['name'], properties=data['properties'])
+                        print(f"Loaded material {data['name']} from {file}")
+                    except:
+                        print(f"{file} does not contain a valid material data")

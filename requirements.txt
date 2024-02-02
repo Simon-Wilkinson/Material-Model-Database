@@ -2,3 +2,4 @@ django>=4.2.9<4.3
 psycopg2>=2.8.6,<2.9
 debugpy==1.5.1
 djangorestframework==3.14.0
+uwsgi>=2.0.19.1,<2.1
