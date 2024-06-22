@@ -1,5 +1,14 @@
-django>=4.2.9<4.3
+# Django framework for the web application
+django>=4.2.9
+
+# PostgreSQL database adapter
 psycopg2>=2.8.6,<2.9
+
+# Debugging tool
 debugpy==1.5.1
+
+# Django REST framework for API development
 djangorestframework==3.14.0
+
+# uWSGI application server
 uwsgi>=2.0.19.1,<2.1

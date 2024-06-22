@@ -22,10 +22,16 @@ RUN python -m venv /py && \
     mkdir -p /vol/web/media && \
     chown -R app:app /vol && \
     chmod -R 755 /vol && \
-    chmod -R +x /scripts
+    chmod -R +x /scripts && \
+    chown -R app:app /app/core/migrations && \
+    chmod -R 755 /app/core/migrations
 
 ENV PATH="/scripts:/py/bin:$PATH"
 
 USER app
 
-CMD ["run.sh"]
+CMD ["sh", "-c", "python manage.py wait_for_db && \
+                  python manage.py collectstatic --noinput && \
+                  python manage.py makemigrations && \
+                  python manage.py migrate && \
+                  uwsgi --socket :9000 --workers 4 --master --enable-threads --module app.wsgi"]
